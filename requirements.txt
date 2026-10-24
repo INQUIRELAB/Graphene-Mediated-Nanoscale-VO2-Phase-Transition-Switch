@@ -1,0 +1,6 @@
+# Dependencies for GIV-PTS VO2 Switch Computational Framework
+numpy>=1.24.0
+scipy>=1.10.0
+pandas>=2.0.0
+matplotlib>=3.7.0
+pypdf>=3.0.0

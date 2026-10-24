@@ -1,0 +1,232 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Authoritative GIV-PTS VO2 Model Configuration",
+  "version": "1.1.0",
+  "freeze_date": "2026-10-09",
+  "description": "Authoritative machine-readable model configuration and governing parameters for the VO2-graphene Gate-Induced-Volatile Phase-Transition Switch (GIV-PTS).",
+  "geometry": {
+    "channel_length_L_m": 5e-08,
+    "channel_width_W_m": 5e-08,
+    "channel_thickness_t_VO2_m": 5e-09,
+    "cross_section_area_A_m2": 2.5e-16,
+    "channel_volume_Omega_m3": 1.25e-23,
+    "gate_oxide_material": "HfO2",
+    "gate_oxide_thickness_t_ox_m": 5e-09,
+    "gate_oxide_relative_permittivity": 25.0,
+    "top_interface": "Monolayer Graphene",
+    "bottom_interface": "SiO2 substrate",
+    "thin_channel_alternative_t_VO2_m": 2.5e-09
+  },
+  "materials": {
+    "VO2": {
+      "mass_density_rho_kg_m3": 4340.0,
+      "specific_heat_Cp_J_kg_K": 690.0,
+      "latent_heat_dH_J_kg": 51000.0,
+      "channel_mass_kg": 5.425e-20,
+      "total_latent_heat_J": 2.76675e-15,
+      "percolation_latent_heat_J": 9.2225e-16,
+      "insulating_conductivity_sigma_ins_S_m": 10.0,
+      "metallic_conductivity_sigma_met_S_m": 100000.0,
+      "effective_medium_approximation": "Bruggeman symmetric EMA: (3*fm - 1)*sigma_met + (2 - 3*fm)*sigma_ins_PF",
+      "percolation_threshold_fm": 0.3333333333333333
+    },
+    "high_k_dielectric": {
+      "dielectric_constant_eps_r": 25.0,
+      "breakdown_field_limit_V_m": 600000000.0,
+      "permittivity_eps_ox_F_m": 2.2135e-10
+    }
+  },
+  "electrical_transport": {
+    "poole_frenkel_enhancement": {
+      "status": "ENABLED_IN_CONDUCTIVITY_ONLY",
+      "beta_E_J_m_V_half": 1.923e-24,
+      "E0_regularization_V_m": 1000.0,
+      "pf_exponent_clamp": 5.0,
+      "equation": "E_reg = sqrt(E_field^2 + E0^2); PF_exponent = min(beta_E * sqrt(E_reg) / (e_q * k_B_eV * T), 5.0); sigma_ins_PF = sigma_ins * exp(PF_exponent)",
+      "rationale": "Captures pre-switching subthreshold non-ohmic field-assisted transport in the insulating state."
+    },
+    "circuit_topology": {
+      "load_resistance_R_L_ohm": 50000.0,
+      "circuit_equation": "V_app(t) = V_D(t) + R_L * I_D(t)",
+      "drain_current_equation": "I_D(t) = V_app(t) / (R_dev(t) + R_L)",
+      "device_voltage_equation": "V_D(t) = V_app(t) * R_dev(t) / (R_dev(t) + R_L)"
+    }
+  },
+  "phase_kinetics": {
+    "rate_equation": "dfm/dt = (1.0 - fm)*rate_IMT - fm*rate_MIT",
+    "attempt_frequency_nu_Hz": 66400000000000.0,
+    "barrier_parameters": {
+      "ground_state_barrier_DG0_eV": 0.125,
+      "transition_temperature_T0_K": 340.0,
+      "thermal_coupling_alpha_th_eV_K": 0.003125,
+      "barrier_regularization_eV2": 2.5e-05,
+      "kinetic_field_coupling_gamma_E": {
+        "value": 0.0,
+        "status": "CONFIRMED_ZERO_IN_AUTHORITATIVE_MODEL",
+        "rationale": "Explicit drain-field barrier lowering is constrained to gamma_E = 0 to prevent unphysical field-assisted thermal artifacts without separate experimental validation."
+      }
+    },
+    "rate_expressions": {
+      "rate_IMT": "nu * exp(clamp(-dG_IMT / (k_B * T), -100, 100))",
+      "rate_MIT": "nu * exp(clamp(-dG_MIT / (k_B * T), -100, 100))",
+      "dG_IMT_eV": "0.5 * (A_IMT + sqrt(A_IMT^2 + 2.5e-5))",
+      "dG_MIT_eV": "0.5 * (A_MIT + sqrt(A_MIT^2 + 2.5e-5))",
+      "A_IMT_eV": "DG0 - alpha_th * (T - T0) - alpha_IMTg * dXg",
+      "A_MIT_eV": "DG0 + alpha_th * (T - T0) + alpha_MITg * dXg"
+    }
+  },
+  "gate_charge_coupling": {
+    "status": "ACTIVE_AND_DISTINCT_FROM_DRAIN_FIELD",
+    "capacitance_partition": {
+      "geometric_capacitance_C_top_F_m2": 0.04427083333333333,
+      "quantum_capacitance_prefactor_V_m": 1.1663e-09,
+      "quantum_capacitance_equation": "sqrt_N2D = (-b + sqrt(b^2 - 4*a*c)) / (2*a) where a = e_q / C_top, b = hbar*v_F*sqrt(pi)/e_q, c = -v_unipolar",
+      "unipolar_gate_voltage": "v_unipolar = 0.5 * (V_G_eff + sqrt(V_G_eff^2 + 1e-4)), V_G_eff = V_G - V_D / 2.0"
+    },
+    "charge_transfer_efficiency_eta_CT": {
+      "value": 0.5,
+      "application": "APPLIED_EXACTLY_ONCE: N_VO2 = eta_CT * N2D_raw",
+      "classification": "Phenomenological parameter based on interfacial state screening (not experimentally calibrated)"
+    },
+    "kinetic_gate_coupling": {
+      "carrier_interaction_volume_beta_X_m2": 1e-18,
+      "order_parameter_shift_dXg": "dXg = beta_X * N_VO2",
+      "alpha_IMTg_eV": 0.517,
+      "alpha_MITg_eV": 0.215,
+      "classification": "Phenomenological carrier-density coupling shifting the thermodynamic free-energy surface"
+    },
+    "spatial_integration_validation": {
+      "status": "VERIFIED_CONSERVATIVE_LOWER_BOUND",
+      "equation": "N_bar_VO2 = (eta_CT / L) * integral_0^L N_2D(V_G - (x/L)*V_D) dx",
+      "low_bias_agreement": "Accurate to within < 1.5% for V_D <= 1.5 V (+0.16% at post-switching avalanche state V_D = 0.744 V)",
+      "switching_threshold_instant": {
+        "V_D_V": 2.9018,
+        "V_G_V": 2.0,
+        "midpoint_Delta_G_g_meV": 17.53,
+        "spatial_integrated_Delta_G_g_meV": 28.32,
+        "carrier_underestimation_pct": 38.11,
+        "physical_mechanism": "Drain pinch-off occurs at x > 0.689 L, but strong electron accumulation persists near source (x <= 0.689 L). Lumped midpoint model represents a conservative lower bound on gate coupling."
+      }
+    }
+  },
+  "thermal_parameters": {
+    "temperature_definition": "Lumped volume-averaged temperature T_avg (not hotspot T_max)",
+    "physical_sheet_properties": {
+      "monolayer_thickness_d0_m": 3.35e-10,
+      "monolayer_thermal_conductivity_k0_W_m_K": 600.0,
+      "monolayer_mass_density_rho0_kg_m3": 2200.0,
+      "monolayer_specific_heat_Cp0_J_kg_K": 709.0,
+      "sheet_conductance_G_th_sq_W_K": 2.01e-07,
+      "areal_heat_capacity_C_th_sq_J_m2_K": 5.22533e-04,
+      "numerical_layer_thickness_ds_m": 1.0e-09,
+      "numerical_layer_thermal_conductivity_k_num_W_m_K": 201.0,
+      "numerical_layer_mass_density_rho_num_kg_m3": 737.0,
+      "provenance": "Arithmetic scaling from 0.335 nm monolayer reference preserves both G_th,sq and C_th,sq identically."
+    },
+    "graphene_off_state": {
+      "R_th_avg_K_W": 1724100.0,
+      "R_th_max_K_W": 2419120.0,
+      "tau_th_632_avg_s": 4.29104e-10,
+      "C_th_effective_J_K": 2.4889e-16,
+      "tau_th_derived_RC_s": 4.29104e-10,
+      "initial_slope_K_s": 1.8557e+10,
+      "C_early_local_J_K": 5.3888e-17,
+      "two_pole_foster": {
+        "R1_K_W": 862030.0,
+        "tau1_s": 1.001e-10,
+        "R2_K_W": 862030.0,
+        "tau2_s": 8.58207e-10
+      },
+      "notes": "Verified against 1 ps / 5 ps 3D FEA Joule-free transient response on converged fine mesh (P = 1.0 uW)."
+    },
+    "graphene_on_state": {
+      "R_th_avg_K_W": 537180.0,
+      "R_th_max_K_W": 761120.0,
+      "tau_th_632_avg_s": 4.1894e-11,
+      "C_th_effective_J_K": 7.7989e-17,
+      "tau_th_derived_RC_s": 4.1894e-11,
+      "initial_slope_K_s": 1.6920e+10,
+      "C_early_local_J_K": 5.9102e-17,
+      "two_pole_foster": {
+        "R1_K_W": 511600.0,
+        "tau1_s": 3.6044e-11,
+        "R2_K_W": 25580.0,
+        "tau2_s": 7.8627e-11
+      },
+      "thermal_resistance_ratio": 3.209,
+      "thermal_speedup_ratio": 10.243,
+      "notes": "Preserves physical monolayer sheet properties (G_th,sq = 2.01e-7 W/K, C_th,sq = 5.23e-4 J/(m2 K)) with k=201 W/(m K) and rho=737 kg/m3 in 1 nm numerical representation."
+    },
+    "heat_equation": "dT/dt = (P_joule - (T - 300.0) / (R_th_eff + R_tbr_add) - m_VO2 * dH_mit * dfm_dt) / C_th",
+    "joule_heating": "P_joule = V_D * I_D",
+    "ambient_temperature_T_amb_K": 300.0
+  },
+  "simulation_protocols": {
+    "transient_pulse": {
+      "amplitude_V": 6.35,
+      "rise_time_s": 1e-12,
+      "t_start_s": 5e-10,
+      "t_end_s": 2.5e-09,
+      "pulse_duration_s": 2e-09,
+      "observation_window_s": 4e-09,
+      "gate_biases_V": [
+        0.0,
+        0.5,
+        1.0,
+        1.5,
+        2.0
+      ],
+      "switching_criterion_fm": 0.3333333333333333,
+      "discrete_grid_dt_s": 2.5e-11
+    },
+    "hysteresis_triangular_ramp": {
+      "max_source_voltage_V": 8.0,
+      "ramp_durations_ns": [
+        100,
+        400,
+        1000
+      ],
+      "ramp_slope_100ns_V_ns": 0.16,
+      "voltage_spacing_per_0_5ns_V": 0.08,
+      "gate_biases_V": [
+        0.0,
+        1.0,
+        2.0
+      ]
+    },
+    "solver_tolerances": {
+      "production_rtol": 1e-08,
+      "production_atol": 1e-10,
+      "verification_rtol": 1e-10,
+      "verification_atol": 1e-12,
+      "method": "Radau stiff ODE integrator"
+    },
+    "direct_pulse_gating_contrast": {
+      "status": "VERIFIED_HIGH_CONTRAST_WINDOW",
+      "pulse_amplitude_V": 5.5,
+      "gating_window_V": [
+        5.3,
+        6.35
+      ],
+      "metrics_at_5_5V": {
+        "V_G_0V_arrested_max_fm": 0.4286,
+        "V_G_2V_switched_max_fm": 0.9633,
+        "V_G_0V_channel_resistance_ohm": 13725.7,
+        "V_G_2V_channel_resistance_ohm": 2116.6,
+        "channel_resistance_ratio": 6.48,
+        "peak_current_0V_uA": 86.31,
+        "peak_current_2V_uA": 105.53,
+        "load_voltage_swing_Delta_Vout_V": 0.9613,
+        "switching_latency_advance_ps": "Switches in 152 ps at 2.0 V vs stalls indefinitely at 0.0 V"
+      }
+    }
+  },
+  "provenance_and_limitations": {
+    "spatial_screening": "Spatial_Screening_Analytical_Approx.csv is an analytical 1D Thomas-Fermi approximation with assumed lambda_TF = 1.2 nm; NOT an independent COMSOL electrostatic solve.",
+    "switching_latency": "In the authoritative model (C_th_on = 7.7989e-17 J/K, tau_th = 41.89 ps), continuous Radau root-finding on percolation threshold fm = 1/3 yields switching latency t_lat = 43.74 ps (VG = 0.0 V) to 36.21 ps (VG = 2.0 V), a deterministic gate speedup Delta t_lat = 7.53 ps. Discrete 25 ps sampling bins both to 50 ps.",
+    "threshold_scaling": "Loaded 100 ns ramp switching occurs at V_app = 5.44 V across all gate biases at 0.5 ns sampling (0.08 V step). Gate-dependent threshold shifts are unresolved at this sampling resolution. The legacy 3.51 V -> 3.38 V DC attribution was an unproven scratch-run artifact and is purged from authoritative claims.",
+    "dielectric_reliability": "The 2.6 MV/cm oxide field is a nominal analytical estimate (V_ox / t_ox) with idealized electrostatic assumptions. It does not establish local peak field, breakdown endurance, or device reliability.",
+    "thermal_boundary_resistance": "Interface thermal boundary resistance was verified in 3D FEA with R_L = 50 kOhm series ballast (Table S4). Top Gr TBR (up to 3e-8 m^2K/W) adds <= 18.66 K; bottom VO2/SiO2 TBR adds <= 31.37 K, bounding peak operating temperatures to <= 425 K and preventing thermal runaway.",
+    "neuromorphic_claims": "Single-pulse switching demonstrates volatile threshold relaxation, not multi-pulse leaky integrate-and-fire spike train accumulation. Unverified neuromorphic neuron scaling claims are purged from the authoritative manuscript."
+  }
+}
