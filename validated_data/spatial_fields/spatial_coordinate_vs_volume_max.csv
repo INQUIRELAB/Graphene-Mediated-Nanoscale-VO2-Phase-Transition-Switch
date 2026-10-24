@@ -1,0 +1,3 @@
+Evaluation_Type,T_GrON_K,T_GrOFF_K,Physical_Location,Notes
+"Channel-Center Cutline X (z = 2.5 nm, x = 25 nm)",300.73891,302.44499,Channel Midpoint at mid-height (z = 2.5 nm),Native coordinate-specific evaluation in FEA cutline
+"Global 3D Volume Hotspot (z = 0.5 nm, x = 25 nm / x_rel = 0 nm)",300.77047,302.44501,"Bottom interface (z = 0.5 nm, furthest from top graphene)",Volume maximum across entire 3D mesh
