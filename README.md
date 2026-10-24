@@ -235,17 +235,7 @@ cd ..
 
 ---
 
-## Citation
 
-If you use this model, code, or simulation dataset in your research, please cite:
-
-```bibtex
-@article{Datta2026GrapheneVO2,
-  title={Graphene-Mediated Electrothermal Control of Phase-Transition Dynamics in Nanoscale $\mathrm{VO_2}$ Devices},
-  author={Datta, Gourab and Sharif, Sarah and Das, Hritom and Banad, Mike},
-  journal={arXiv preprint},
-  year={2026}
-}
 ```
 
 ---
