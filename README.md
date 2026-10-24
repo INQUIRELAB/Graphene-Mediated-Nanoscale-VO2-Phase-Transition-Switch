@@ -53,7 +53,7 @@ The three-terminal Graphene-Interlayer $\mathrm{VO_2}$ Phase-Transition Switch (
 | Metric | Graphene OFF | Graphene ON | Relative Effect | Verification Test |
 | :--- | :---: | :---: | :---: | :---: |
 | **Volume-Avg Thermal Resistance** ($R_{\rm th,avg}$) | $1.7241\times 10^6\text{ K/W}$ | $5.3718\times 10^5\text{ K/W}$ | **$-68.80\%$** ($3.21\times$ heat removal) | `[TST-03]` |
-| **Thermal Rise Time** ($\tau_{63.2\%}$) | $429.10\text{ ps}$ | $41.89\text{ ps}$ | **$10.24\times$** faster thermal dissipation | `[TST-03]` |
+| **Thermal Rise Time** ($\tau_$ $63.2\%$) | $429.10\text{ ps}$ | $41.89\text{ ps}$ | **$10.24\times$** faster thermal dissipation | `[TST-03]` |
 | **Dynamic Percolation Threshold** ($V_{\rm app,SET}$ at $f_m = 1/3$) | $4.8784\text{ V}$ ($V_G=0\text{V}$) | $4.5792\text{ V}$ ($V_G=2\text{V}$) | **$-299.7\text{ mV}$** gate threshold reduction | `[TST-09]` |
 | **Midpoint Phase Conversion** ($f_m = 0.50$) | $5.6072\text{ V}$ ($V_G=0\text{V}$) | $4.5792\text{ V}$ ($V_G=2\text{V}$) | **$-1028.0\text{ mV}$** load-throttled shift | `[TST-09]` |
 | **Switching Latency** ($t_{\rm lat}$ at $6.35\text{V}$ pulse) | $43.74\text{ ps}$ ($V_G=0\text{V}$) | $36.21\text{ ps}$ ($V_G=2\text{V}$) | **$-7.53\text{ ps}$** gate acceleration | `[TST-06]` |
