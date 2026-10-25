@@ -1,0 +1,27 @@
+THERMAL CALIBRATION PROVENANCE AND MATCHED PAIR DOCUMENTATION
+============================================================
+
+Matched Pair Source Files:
+  1. supporting/FEA_Thermal_Calibration_Gr0.csv (SHA-256: 90cd45f7e3d26c84a5045340f04d68703ca29e5d5bb495d705567954d5cca3af)
+  2. supporting/FEA_Thermal_Calibration_Gr1.csv (SHA-256: ea13e4adbd1e6c883e53645f5534ca8e117c6fb3ca1f0e5bb644169fe3ace8d0)
+
+Run Configuration:
+  - Model: comsol/Diag_FreshStart_Model.mph via Extract3DThermal.java
+  - Active Physics: Heat Transfer in Solids ('ht') ONLY.
+  - Deactivated Physics: Electric Currents ('ec') and Domain ODEs ('dode1') explicitly deactivated.
+  - Applied Power: Uniform volumetric heat source Q0 = 1 uW / (48 nm * 50 nm * 5 nm) in VO2 domain.
+  - Ambient Baseline: Fixed 300.0 K at bottom boundary of SiO2 substrate.
+  - Output Spacing: range(0, 0.1[ns], 10[ns]) (100 ps grid spacing).
+
+Explanation of Previous Discrepancy:
+  - In Extract3DThermal.java, 'ec' and 'dode1' were explicitly deactivated, yielding true Joule-free
+    rise times of 436.97 ps (Gr0) and 75.50 ps (Gr1).
+  - In a secondary script (Validation_ThermalCalibration.java), deactivation lines were omitted,
+    causing the solver to solve coupled ODE/current structures even at zero bias, yielding 351.3 ps.
+  - The authentic Joule-free 3D FEA pair is Extract3DThermal.java (supporting/FEA_Thermal_Calibration_Gr*.csv).
+
+Limitations of 100 ps Output Spacing:
+  - The fast graphene-ON response has tau ~ 75.5 ps, which is smaller than the 100 ps sampling interval.
+  - Linear interpolation across [0, 100 ps] provides a discrete approximation of the convex exponential
+    rise. While sufficient for single-pole lumped ROM calibration, resolving sub-100 ps curvature requires
+    finer FEA output (e.g. 5-10 ps) if higher fidelity is desired.
