@@ -75,18 +75,6 @@ The three-terminal Graphene-Interlayer $\mathrm{VO_2}$ Phase-Transition Switch (
 ├── run_reproduction.py            # Master one-click automated reproduction runner
 ├── authoritative_model_config.json # Authoritative frozen physical parameters
 │
-├── manuscript/                    # Manuscript LaTeX sources, bib, figures, and compiled PDF
-│   ├── GIV_PTS_AEM_Manuscript.tex # Primary manuscript source
-│   ├── giv_pts_references.bib     # Complete BibTeX bibliography
-│   ├── VO2_Transistor_Manuscript.pdf # Full compiled manuscript PDF
-│   └── figures/                   # Main publication figures (PDF & high-res PNG)
-│
-├── supplementary/                 # Supporting Information sources and compiled PDF
-│   ├── GIV_PTS_AEM_Supporting_Information.tex # Supplementary source
-│   ├── giv_pts_references.bib     # BibTeX bibliography
-│   ├── VO2_Transistor_Supplementary.pdf # Full compiled supplementary PDF
-│   └── figures/                   # All SI publication figures (PDF & high-res PNG)
-│
 ├── scripts/                       # Executable simulation & figure generation scripts
 │   ├── giv_pts_model.py           # Core stiff electrothermal ROM
 │   ├── generate_main_figures.py   # Regenerates Figures 1 to 7
@@ -114,15 +102,6 @@ The three-terminal Graphene-Interlayer $\mathrm{VO_2}$ Phase-Transition Switch (
 │   ├── Run_Authoritative_Thermal_Calibration.java # Java source for generating & solving 3D model
 │   ├── ExportAuthenticCOMSOLSpatialFields.java    # Java source for field exports
 │   └── COMSOL_MODEL_ACCESS.md     # Model documentation, checksums, and access instructions
-│
-└── audit/                         # Scientific audit records & verification manifests
-    ├── source_manifest.json       # SHA-256 cryptographic hashes for all key files
-    ├── configuration_hashes.csv   # Checksum tables for frozen configs
-    ├── parameter_provenance.csv   # Complete parameter provenance table
-    ├── configuration_comparison.csv # Configuration comparison across model versions
-    ├── issue_tracker.csv          # Comprehensive audit resolution log
-    ├── comsol_provenance_audit.md # Detailed COMSOL model provenance audit
-    └── validation_results.json    # Machine-readable output of the 12-test validation suite
 ```
 
 ---
