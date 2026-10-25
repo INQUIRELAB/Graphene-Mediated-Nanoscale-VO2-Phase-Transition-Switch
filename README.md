@@ -234,20 +234,7 @@ comsolbatch -inputfile comsol/Run_Authoritative_Thermal_Calibration.java
     └── COMSOL_MODEL_ACCESS.md
 ```
 
----
 
-## Citation
-
-If you use this computational model, simulation code, or thermal calibration data in your research, please cite:
-
-```bibtex
-@article{Datta2026GrapheneVO2,
-  title={Graphene-Mediated Electrothermal Control of Phase-Transition Dynamics in Nanoscale $\mathrm{VO_2}$ Devices},
-  author={Datta, Gourab and Sharif, Sarah and Das, Hritom and Banad, Mike},
-  journal={Advanced Electronic Materials},
-  year={2026}
-}
-```
 
 ---
 
