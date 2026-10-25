@@ -88,7 +88,7 @@ $$V_{\rm app}(t) = V_D(t) + R_L I_D(t), \quad R_L = 50\text{ k}\Omega, \quad I_D
 | Physical Observable | Graphene OFF | Graphene ON | Relative Effect & Physical Significance |
 | :--- | :---: | :---: | :--- |
 | **Volume-Average Thermal Resistance** ($R_{\rm th,avg}$) | $1.7241\times 10^6\text{ K/W}$ | $5.3718\times 10^5\text{ K/W}$ | **$-68.80\%$** ($3.21\times$ higher heat dissipation rate) |
-| **Thermal Rise Time** ($\tau_{63.2\%}$) | $429.10\text{ ps}$ | $41.89\text{ ps}$ | **$10.24\times$** faster thermal dissipation into lateral sinks |
+| **Thermal Rise Time** ($\tau_{\text{63.2\%}}$) | $429.10\text{ ps}$ | $41.89\text{ ps}$ | **$10.24\times$** faster thermal dissipation into lateral sinks |
 | **Dynamic Percolation Threshold** ($V_{\rm SET}$ at $f_m = 1/3$) | $4.878\text{ V}$ ($V_G=0\text{ V}$) | $4.579\text{ V}$ ($V_G=2\text{ V}$) | **$-299.7\text{ mV}$** gate-induced threshold reduction |
 | **Midpoint Phase Conversion** ($V_{\rm SET}$ at $f_m = 0.50$) | $5.607\text{ V}$ ($V_G=0\text{ V}$) | $4.579\text{ V}$ ($V_G=2\text{ V}$) | **$-1028.0\text{ mV}$** load-throttled transition shift |
 | **Switching Latency** ($6.35\text{ V}$ pulse, $50\text{ k}\Omega$) | $43.74\text{ ps}$ ($V_G=0\text{ V}$) | $36.21\text{ ps}$ ($V_G=2\text{ V}$) | **$-7.53\text{ ps}$** gate acceleration (17.2% faster) |
